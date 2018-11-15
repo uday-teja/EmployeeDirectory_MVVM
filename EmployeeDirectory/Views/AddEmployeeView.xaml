@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="EmployeeDirectory.Views.AddEmployeeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:EmployeeDirectory.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Name="displayForm" Background="White" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="1" Text="First Name"/>
+        <TextBlock Grid.Row="3" Text="Last Name"/>
+        <TextBlock Grid.Row="5" Text="Email"/>
+        <TextBlock Grid.Row="7" Text="Mobile"/>
+        <TextBlock Grid.Row="9" Text="Date of Joining"/>
+
+        <TextBox Grid.Row="2" Text="{Binding Employee.FirstName}"/>
+        <TextBox Grid.Row="4" Text="{Binding Employee.LastName}"/>
+        <TextBox Grid.Row="6" Text="{Binding Employee.Email}"/>
+        <TextBox Grid.Row="8" Text="{Binding Employee.MobileNumber}"/>
+        <DatePicker Grid.Row="10" Height="30" FontSize="18" SelectedDate="{Binding Employee.JoiningData}"/>
+
+        <Image Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Stretch="Fill" Width="100" HorizontalAlignment="Left"  Source="{Binding Employee.ImagePath, Mode=TwoWay}">
+            <Image.Clip>
+                <EllipseGeometry RadiusX="50" RadiusY="45" Center="50,50"/>
+            </Image.Clip>
+        </Image>
+
+        <Button Grid.Column="2" Grid.Row="4" Name="photoSubmit" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Width="105" Content="Choose Image" Background="White"  FontSize="10" Height="25" Command="{Binding ChangeImageCommand}"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="Gender" VerticalAlignment="Bottom"/>
+
+        <StackPanel Name="gender" Orientation="Horizontal" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">
+            <RadioButton GroupName="gender" Name="male" Content="Male"  Margin="0 0 20 0" IsChecked="{Binding Employee.Gender, Converter={StaticResource genderConvertor},ConverterParameter=0}"/>
+            <RadioButton GroupName="gender" Name="female" Content="Female" IsChecked="{Binding Employee.Gender, Converter={StaticResource genderConvertor},ConverterParameter=1}"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="7" Grid.Column="2" Text="Designation" VerticalAlignment="Bottom"/>
+
+        <ComboBox Grid.Row="8" Grid.Column="2" Text="Select a Designation" Width="150" Height="24" SelectedIndex="0"  HorizontalAlignment="Left" ItemsSource="{Binding EmployeeDesignations}" SelectedItem="{Binding SelectedDesignation}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DesignationName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <CheckBox Name="agreed" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsButtonVisible}" Content="Please accept terms and conditions"/>
+        <TextBlock Grid.Row="9" Grid.Column="2" Text="Salary" VerticalAlignment="Bottom" />
+        <TextBox Grid.Row="10" Grid.Column="2" Text="{Binding Employee.Salary}"/>
+        <Button Grid.Row="14" Grid.Column="0" Width="100" Content="{Binding ButtonContent}" IsEnabled="{Binding ElementName=agreed, Path=IsChecked}" Command="{Binding AddEmployeeeCommand}" BorderThickness="0" Background="#29aae3" Foreground="Black"/>
+        <Button Grid.Row="14" Grid.Column="2" Content="Cancel" BorderBrush="Black" Background="White" Width="100" Command="{Binding DispalyEmployeesCommand}" />
+    </Grid>
+</UserControl>
